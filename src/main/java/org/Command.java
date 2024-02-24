@@ -59,7 +59,35 @@ public class Command {
 
     public Teacher lookupTeacher(String teacherId){}
 
-    public double showProfit(){}
+    public static double showProfit(Map<String, Course> showCourses, Map<String, Teacher> showTeachers) {
+        try {
+            // Handle exception: check if the showCourses or showTeachers maps are null
+            if (showCourses == null || showTeachers == null) {
+                throw new IllegalArgumentException("Course list or teacher list is empty");
+            }
+
+            double totalProfit = 0;
+            double totalSalary = 0;
+
+            // Iterate through each course in the showCourses map
+            for (Course course : showCourses.values()) {
+                totalProfit += course.getMoney_earned();
+            }
+
+            // Iterate through each teacher in the showTeachers map
+            for (Teacher teacher : showTeachers.values()) {
+                totalSalary += teacher.getSalary();
+            }
+
+            // Calculate the profit by subtracting the total teacher salary from the total profit
+            return totalProfit - totalSalary;
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+            return 0;
+        }
+    }
+}
 
 
 
