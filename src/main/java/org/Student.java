@@ -3,16 +3,16 @@ package org;
 import java.util.UUID;
 
 public class Student {
-    private final String studentId;
+    private String studentId;
     private String name;
     private String address;
     private String email;
     private Course course;
+    private static int idCounter = 1;
 
     // Constructor
     public Student(String name, String address, String email) {
-        // TODO - copy from Course
-        this.studentId = UUID.randomUUID().toString(); // auto-generated studentId
+        assignStudentId();
         setName(name);
         setAddress(address);
         setEmail(email);
@@ -56,7 +56,11 @@ public class Student {
         this.course = course;
     }
 
-    // Helper
+    // Helpers
+    private void assignStudentId() {
+        this.studentId = "S" + String.valueOf(idCounter++);
+    }
+
     public void getInfo() {
         System.out.println("Student - ID: " + this.studentId + " | Name: " + getName() + " | Address: " + getAddress() + " | Email: " + getEmail());
     }
