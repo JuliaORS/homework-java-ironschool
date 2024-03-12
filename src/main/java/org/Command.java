@@ -36,18 +36,14 @@ public class Command {
         // Checks if the course and the student exist
         if (student != null && course != null) {
             // Check if the student is already enrolled in another course
-            //**************mas cambios lista courses
-//            if (student.getCourse() != null) {
-//                throw new IllegalArgumentException("Student is already enrolled in a course.");
-//            }
-            if (student.getCourse().contains(course)) {
+
+            if (student.getCourse() != null) {
                 throw new IllegalArgumentException("Student is already enrolled in a course.");
             }
 
-
             // Enrolls student in the course
-            //student.setCourse(course); añadido!!
-            student.addCourse(course);
+            student.setCourse(course);
+
 
             // Updates money earned in the course based on its price
             course.updateMoney_earned(course.getPrice());
@@ -98,7 +94,7 @@ public class Command {
             // Check if the student is enrolled in the given course
             if (isStudentEnrolledInCourse(student, courseId)) {
                 // Remove the course from the student
-                student.removeCourse(course);
+                student.setCourse(null);
 
                 // Update money earned in the course based on its price
                 course.updateMoney_earned(course.getMoney_earned() - course.getPrice());
@@ -111,14 +107,15 @@ public class Command {
     }
 
     // Helper method to check if a student is enrolled in a given course
+    //quitarlo si no es List<Course>
     public static boolean isStudentEnrolledInCourse(Student student, String courseId) {
-        List<Course> courses = student.getCourse();
-        for (Course course : courses) {
-            if (Objects.equals(course.getCourseId(), courseId)) {
+        Course course = student.getCourse();
+
+        if (Objects.equals(course.getCourseId(), courseId)) {
                 return true;
-            }
+            } else {
+            return false;
         }
-        return false;
     }
 
 
@@ -131,7 +128,7 @@ public class Command {
             //no comprobar si uno ya está matriculado, se vuelve a matricular
 
                 // Enrolls student in the course
-                student.addCourse(course);
+                student.setCourse(course);
 
                 // Updates money earned in the course based on its price
                 course.updateMoney_earned(course.getPrice());
@@ -140,15 +137,7 @@ public class Command {
             }
         }
     }
-    //al final no se uso?
-//    public static void showStudentsOfCourse(String courseId, Map<String,Student> studentsMap){
-//
-//        studentsMap.forEach((id, student) -> {
-//            if(isStudentEnrolledInCourse(student, courseId)){
-//                System.out.println(student.getInfo());
-//            }
-//        });
-//    }
+
 
     public static double showProfit(School school) throws IllegalArgumentException {
         double totalMoneyEarned = 0;
